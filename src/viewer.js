@@ -38,13 +38,10 @@ export class Viewer
     this.scene = new Scene();
 
     const fov = 60;
-    this.defaultCamera = new PerspectiveCamera(fov, el.clientWidth / el.clientHeight, 0.1, 700);
+    this.defaultCamera = new PerspectiveCamera(fov, el.clientWidth / el.clientHeight, 0.1, 10000);
     this.activeCamera = this.defaultCamera;
     this.scene.add(this.defaultCamera);
     this.activeCamera.layers.enableAll();
-
-    this.sceneEx = new Scene();
-    this.sceneEx.add(this.defaultCamera);
 
     this.renderer = window.renderer = new WebGLRendererEx({antialias: true});
     this.renderer.physicallyCorrectLights = true;
@@ -56,10 +53,6 @@ export class Viewer
 
     new PlayerControl(this.activeCamera)
     window.camera=this.activeCamera
-    //this.controls = new OrbitControls(this.defaultCamera, this.renderer.domElement);
-    //this.controls.autoRotate = false;
-    //this.controls.autoRotateSpeed = -10;
-    //this.controls.screenSpacePanning = true;
 
     this.el.appendChild(this.renderer.domElement);
 
@@ -92,7 +85,6 @@ export class Viewer
   {
     requestAnimationFrame(this.animate);
 
-    //this.controls.update();
     this.stats.update();
 
     this.render();
@@ -102,13 +94,8 @@ export class Viewer
 
   render() 
   {
-    this.slmLoader.render(this.activeCamera, this.sceneRootNodeEx ? this.sceneRootNodeEx.matrixWorld: null);
-
-    this.renderer.clear();
-    
+    this.renderer.clear();//绘制背景
     this.renderer.render(this.scene, this.activeCamera);//不知为啥有两个render
-
-    this.renderer.render(this.sceneEx, this.activeCamera);
   }
 
   resize() 
@@ -127,91 +114,21 @@ export class Viewer
     var scope = this;
     this.slmLoader.LoadScene(scenes, function(slmScene, _tag, bvhScene)
       {
-        // console.log('get scene: ' + _tag);
-
-        // console.log(slmScene);
-        
         scope.addSceneModel(slmScene,_tag);
       }, function()
       {
-        // console.log('all scene loaded');
-
         if (finishCallback)
         {
           finishCallback();
         }
       }, function(slmScene, _tag)
       {
-        // console.log(slmScene);
-        
       });
   }
 
-  addSceneModel(sceneModel,tag)
+  addSceneModel(sceneModel)
   {
-    //alert(tag)
-    if (!this.sceneRootNode)
-    {
-      this.sceneRootNode = new Object3D();//只创建一次
-	    this.sceneRootNode2 = new Object3D();
-      this.sceneRootNodeEx = new Object3D();
-
-      this.scene.add(this.sceneRootNode);
-	    this.scene.add(this.sceneRootNode2);
-      this.sceneEx.add(this.sceneRootNodeEx);
-    }
-    // console.log("addSceneModel_tag",tag)
-
-    if(tag==1)
-    {
-      this.uniformScene(sceneModel, 50,this.sceneRootNode);
-      this.uniformScene(sceneModel, 50,this.sceneRootNodeEx);
-
-      //this.sceneRootNodeEx.position.x += 3.6;
-      //this.sceneRootNodeEx.position.y += 8.8;
-      //this.sceneRootNodeEx.scale.copy(this.sceneRootNode.scale);
-
-      this.sceneRootNode.add(sceneModel);
-      this.sceneRootNode.position.set(0,0,0)
-	  }
-	  /*else if(tag==2)
-    {
-      this.uniformScene(sceneModel, 50,this.sceneRootNode2);
-      this.sceneRootNode2.add(sceneModel);
-	  }
-    */
-    // window.hasLoadingTag++
-		// console.log(window.hasLoadingTag)
-		// if(window.hasLoadingTag<=25){
-		// 	window.myLoading(window.hasLoadingTag)
-		// }
-  }
-
-  uniformScene(sceneModel, _uniforSize, sceneRootNode)////////////////////!!!!!!!!!!
-  {
-    // Uniform model
-    var uniformSize = _uniforSize ? _uniforSize : 20;
-
-    var objBox3 = new Box3().setFromObject(sceneModel);
-
-    var centerOffset = new Vector3();
-    centerOffset.x = -(objBox3.min.x + objBox3.max.x) * 0.5;
-    centerOffset.y = -(objBox3.min.y + objBox3.max.y) * 0.5;
-    centerOffset.z = -(objBox3.min.z + objBox3.max.z) * 0.5;
-
-    var maxSize = Math.max((objBox3.max.x - objBox3.min.x), Math.max((objBox3.max.y - objBox3.min.y), (objBox3.max.z - objBox3.min.z)));
-    var scale = uniformSize / maxSize;
-
-    //alert(scale)
-    sceneRootNode.scale.x = 0.01;//scale;
-    sceneRootNode.scale.y = 0.01;//scale;
-    sceneRootNode.scale.z = 0.01;//scale;
-
-    //sceneRootNode.translateX(centerOffset.x * scale);
-    //sceneRootNode.translateY(centerOffset.y * scale);
-    //sceneRootNode.translateZ(centerOffset.z * scale);
-
-    //console.log(sceneRootNode);
+    this.scene.add(sceneModel);
   }
 
   setupScene() 
@@ -225,27 +142,10 @@ export class Viewer
 
   setCamera() 
   {
-    //this.controls.reset();
-
-    var scope=this
-    //setInterval(()=>{
-      scope.defaultCamera.position.set(
-        -1.8179346293719774, 
-         1.3528086227387572, 
-          22.524586172269363);
-      scope.defaultCamera.rotation.set(
-        -1.4087594547664113, 
-        1.3142458758626443, 
-        1.4033769709588264)
-    //},100)
-    
-
-    //this.controls.target = new Vector3(0.0, 0.0, 0.0);
-
-    //this.controls.enabled = true;
+    this.defaultCamera.position.set(-459.8231509760614,  39.2496658862353,  2716.9451960982447);
+    this.defaultCamera.rotation.set( -0.18589681069184721,  0.6590683541369203,  0.11466413855442507)
     this.activeCamera = this.defaultCamera;
-
-    //this.controls.saveState();
+    window.c=this.defaultCamera
   }
 
   addLights ()

@@ -39,10 +39,20 @@ class App
       [
         //{url: 'assets\\models\\' + paramJson.scene + '.zip', tag: 1}
       ]
-      for(var i=0;i<=25;i++)
+      for(var i=0;i<=0;i++)//for(var i=0;i<=25;i++)
         scenes.push(
           {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
         )
+      
+      // var scope=this
+      // setTimeout(()=>{
+      //   scenes = []
+      //   for(var i=1;i<=5;i++)//for(var i=0;i<=25;i++)
+      //     scenes.push(
+      //       {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
+      //     )
+      //   scope.viewer.load(scenes);
+      // },100)
     }
     this.viewer.load(scenes);
   }
