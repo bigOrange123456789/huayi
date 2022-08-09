@@ -39,7 +39,7 @@ class App
       [
         //{url: 'assets\\models\\' + paramJson.scene + '.zip', tag: 1}
       ]
-      for(var i=0;i<=0;i++)//for(var i=0;i<=25;i++)
+      for(var i=0;i<=0;i++)//for(var i=0;i<=25;i++)//
         scenes.push(
           {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
         )
@@ -52,9 +52,31 @@ class App
       //       {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
       //     )
       //   scope.viewer.load(scenes);
-      // },100)
+      // },1000)
     }
-    this.viewer.load(scenes);
+    // this.viewer.load(scenes);
+
+    
+    window.viewer000=this.viewer
+    window.hasLoadingTag=0
+    console.log("这里应该只执行一次")
+    window.myLoading=()=>{
+      if(window.hasLoadingTag<=25){
+        window.viewer000.load([{
+          url:'assets/models/huayirvm0616-' +window.hasLoadingTag+ '.zip', 
+          tag: 1
+        }])
+         window.hasLoadingTag=window.hasLoadingTag+1
+		  }
+      console.log("window.hasLoadingTag",window.hasLoadingTag)
+    }
+    window.myLoading()
+
+    // window.viewer000.load([{
+    //   url:'assets/models/huayirvm0616-' +window.hasLoadingTag+ '.zip', 
+    //   tag: 1
+    // }])
+
   }
 
   createViewer(paramJson) 

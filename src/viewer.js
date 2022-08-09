@@ -1,12 +1,9 @@
 import {
-  Box3,
   DirectionalLight,
   PerspectiveCamera,
   Scene,
-  Vector3,
   WebGLRendererEx,
-  sRGBEncoding,
-  Object3D
+  sRGBEncoding
 } from '../lib/three/build/three';
 
 import Stats from '../lib/three/examples/jsm/libs/stats.module.js';
