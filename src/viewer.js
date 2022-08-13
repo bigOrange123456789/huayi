@@ -33,6 +33,7 @@ export class Viewer
     [].forEach.call(this.stats.dom.children, (child) => (child.style.display = ''));
 
     this.scene = new Scene();
+    console.log(this.scene)
 
     const fov = 60;
     this.defaultCamera = new PerspectiveCamera(fov, el.clientWidth / el.clientHeight, 0.1, 10000);

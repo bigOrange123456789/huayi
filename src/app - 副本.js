@@ -32,42 +32,50 @@ class App
 	    {url: 'assets\\models\\SAM_Review_1.zip', tag: 2}
     ];//资源路径，每一个zip包对应一个glb中的scene对象
     
-    // {
-    //   scenes = []
-    //   for(var i=0;i<=2;i++)//for(var i=0;i<=25;i++)//
-    //     scenes.push(
-    //       {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
-    //     )
-    //   var scope=this
-    //   scenes = []
-    //   for(var i=1;i<=25;i++){//for(var i=0;i<=25;i++)
-    //       scenes.push(
-    //         {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
-    //       )
-    //       console.log(i)
-    //   }
-    //   scope.viewer.load(scenes);
-    // }
+
+    if (paramJson.scene)
+    {
+      scenes = 
+      [
+        //{url: 'assets\\models\\' + paramJson.scene + '.zip', tag: 1}
+      ]
+      for(var i=0;i<=0;i++)//for(var i=0;i<=25;i++)//
+        scenes.push(
+          {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
+        )
+      
+      // var scope=this
+      // setTimeout(()=>{
+      //   scenes = []
+      //   for(var i=1;i<=5;i++)//for(var i=0;i<=25;i++)
+      //     scenes.push(
+      //       {url: 'assets/models/huayirvm0616-' +i+ '.zip', tag: 1}
+      //     )
+      //   scope.viewer.load(scenes);
+      // },1000)
+    }
+    // this.viewer.load(scenes);
+
     
     window.viewer000=this.viewer
     window.hasLoadingTag=0
     console.log("这里应该只执行一次")
-    window.myLoading=(number)=>{
+    window.myLoading=()=>{
       if(window.hasLoadingTag<=25){
         window.viewer000.load([{
-          url:'assets/models/huayirvm0616-' +number+ '.zip', 
+          url:'assets/models/huayirvm0616-' +window.hasLoadingTag+ '.zip', 
           tag: 1
         }])
-        
-        // setTimeout(()=>{
-        //   console.log(number)
-        //   if(window.hasLoadingTag<25)
-        //     window.myLoading(number+1)
-        // },number*500)
-
+         window.hasLoadingTag=window.hasLoadingTag+1
 		  }
+      console.log("window.hasLoadingTag",window.hasLoadingTag)
     }
-    window.myLoading(0)
+    window.myLoading()
+
+    // window.viewer000.load([{
+    //   url:'assets/models/huayirvm0616-' +window.hasLoadingTag+ '.zip', 
+    //   tag: 1
+    // }])
 
   }
 
