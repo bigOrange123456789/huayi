@@ -33,7 +33,7 @@ export class Viewer
     [].forEach.call(this.stats.dom.children, (child) => (child.style.display = ''));
 
     this.scene = new Scene();
-    console.log(this.scene)
+    window.scene=this.scene
 
     const fov = 60;
     this.defaultCamera = new PerspectiveCamera(fov, el.clientWidth / el.clientHeight, 0.1, 10000);
@@ -110,17 +110,22 @@ export class Viewer
   {
     window.hasLoadingTag=0
     var scope = this;
-    this.slmLoader.LoadScene(scenes, function(slmScene, _tag, bvhScene)
-      {
-        scope.addSceneModel(slmScene,_tag);
-      }, function()
-      {
+    window.addMoment("slmLoader.LoadScene:start")
+    this.slmLoader.LoadScene(
+      scenes, //所有场景对应zip包的地址
+      function(slmScene, _tag, bvhScene){ //singleSceneCallbackAsync, 单场景回调异步
+        console.log("this.slmLoader.LoadScene 1")
+        //scope.addSceneModel(slmScene,_tag);
+      }, 
+      function(){ //allScenesCallbackAsync, 所有场景回调异步
+        console.log("this.slmLoader.LoadScene 2")
         if (finishCallback)
         {
           finishCallback();
         }
-      }, function(slmScene, _tag)
-      {
+      }, 
+      function(slmScene, _tag){ //singleSceneCallbackSync,单场景回调同步
+        console.log("this.slmLoader.LoadScene 3")
       });
   }
 
