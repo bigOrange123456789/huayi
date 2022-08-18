@@ -4,6 +4,7 @@ class App
 {
   constructor (el) 
   {
+    console.log("version:000")
     this.el = el;
     this.viewer = null;
     this.viewerEl = null;
